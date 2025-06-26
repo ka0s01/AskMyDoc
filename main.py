@@ -2,12 +2,12 @@ import streamlit as st
 import os
 from utils import extract_text_from_pdf, extract_text_from_image
 
-# Ensure upload folder exists
+# makes sure that the upload folder is there
 UPLOAD_FOLDER = "data/uploaded_docs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-st.title("📄 Document QA App - Step 1: Upload & View")
-# Initialize chat history
+st.title("Welcome to Ask My Doc")
+# chat history
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
