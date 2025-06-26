@@ -1,0 +1,23 @@
+# Ignore virtual environments
+venv/
+.env
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+
+# VSCode settings
+.vscode/
+
+# Uploaded & extracted files
+*.pdf
+*.png
+*.jpg
+*.jpeg
+data/uploaded_docs/
+extracted_text.txt
+
+# OS/system files
+.DS_Store
+Thumbs.db
