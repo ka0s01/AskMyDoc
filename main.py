@@ -48,6 +48,7 @@ for fname in st.session_state.files.keys():
         st.session_state.current_file = fname
 
 # Show active file
+# Show active file
 if st.session_state.current_file:
     current_file = st.session_state.current_file
     st.subheader(f"📄 Chat with: {current_file}")
@@ -55,34 +56,8 @@ if st.session_state.current_file:
     # Collapsible extracted text preview
     with st.expander("📜 View Extracted Text"):
         st.text_area("Extracted Text", st.session_state.files[current_file], height=300)
-    
-    # Download extracted text
-    # Download extracted text (no rerun triggered, current_file preserved)
-    st.download_button(
-        label="⬇️ Download Extracted Text",
-        data=st.session_state.files[current_file],
-        file_name=f"{current_file}_extracted.txt",
-        mime="text/plain",
-        key=f"download_text_{current_file}"  # unique key prevents rerun conflicts
-    )
 
-    # Prepare chat history as text
-    chat_export = "\n".join(
-        [f"You: {msg}" if role == "user" else f"AI: {msg}" 
-        for role, msg in st.session_state.chat_history[current_file]]
-    )
-
-    st.download_button(
-        label="⬇️ Download Chat History",
-        data=chat_export,
-        file_name=f"{current_file}_chat.txt",
-        mime="text/plain",
-        key=f"download_chat_{current_file}"  # unique key
-    )
-
-
-
-    # Buttons: Clear chat + remove file
+    # Row 1: Clear + Remove
     col1, col2 = st.columns(2)
     with col1:
         if st.button("🧹 Clear Chat"):
@@ -90,24 +65,39 @@ if st.session_state.current_file:
             st.rerun()
     with col2:
         if st.button("❌ Remove File"):
-            # 1) Remove the physical file from disk
             try:
                 file_path = os.path.join(UPLOAD_FOLDER, current_file)
                 if os.path.exists(file_path):
                     os.remove(file_path)
             except Exception as e:
                 st.warning(f"Couldn't delete the file from disk: {e}")
-
-            # 2) Clean up session state
             st.session_state.files.pop(current_file, None)
             st.session_state.chat_history.pop(current_file, None)
-
-            # 3) Switch to another file if available, else None
             st.session_state.current_file = next(iter(st.session_state.files), None)
-
-            # 4) Rerun to refresh the UI
             st.rerun()
 
+    # Row 2: Downloads
+    col3, col4 = st.columns(2)
+    with col3:
+        st.download_button(
+            label="⬇️ Download Extracted Text",
+            data=st.session_state.files[current_file],
+            file_name=f"{current_file}_extracted.txt",
+            mime="text/plain",
+            key=f"download_text_{current_file}"
+        )
+    with col4:
+        chat_export = "\n".join(
+            [f"You: {msg}" if role == "user" else f"AI: {msg}"
+             for role, msg in st.session_state.chat_history[current_file]]
+        )
+        st.download_button(
+            label="⬇️ Download Chat History",
+            data=chat_export,
+            file_name=f"{current_file}_chat.txt",
+            mime="text/plain",
+            key=f"download_chat_{current_file}"
+        )
 
     # Chat container
     chat_container = st.container()
