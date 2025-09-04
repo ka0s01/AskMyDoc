@@ -39,26 +39,26 @@ Upload a **PDF or Image**, extract its text, and chat with your document in real
 
 ## 🚀 Installation & Setup
 
-Clone the repo:
+### Clone the repo:
 ```bash
 git clone https://github.com/your-username/ask-my-doc.git
 cd ask-my-doc
-
-Create a Virtual Environment
-
+```
+### Create a Virtual Environment
+```
 python -m venv venv
 source venv/bin/activate   # Mac/Linux
 venv\Scripts\activate      # Windows
-
-Install The dependancies
-
+```
+### Install The dependancies
+```
 pip install -r requirements.txt
 
 export GEMINI_API_KEY="your_api_key"    # Mac/Linux
 setx GEMINI_API_KEY "your_api_key"      # Windows
-
-Run the app
-
+```
+### Run the app
+```
 streamlit run main.py
 
 
