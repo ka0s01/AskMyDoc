@@ -1,6 +1,74 @@
-Stuff to add
-- file history
--switch between chats
--chatgpt style ux
--improve on the overall ui
-- change the full structure. i dont like the way it says upload and view. instead just add a smaller heading followed by the drag and drop part then there should be an option to show extracted text instead of always displaying it
+# 📄 Ask My Doc
+
+An interactive **Document Question-Answering (QA) App** built with **Streamlit** and powered by **Gemini AI**.  
+Upload a **PDF or Image**, extract its text, and chat with your document in real-time.  
+
+---
+
+## ✨ Features
+
+- 📂 **Upload Documents** (PDFs, PNGs, JPGs, JPEGs)  
+- 🔍 **Automatic Text Extraction** from PDFs and Images  
+- 💬 **Chat with Your Document** using Gemini AI  
+- 🗂 **Multi-file Support** → switch between uploaded files easily  
+- 📜 **Collapsible Extracted Text Preview**  
+- ⬇️ **Download Options**  
+  - Extracted text as `.txt`  
+  - Full chat history as `.txt`  
+- 🧹 **Clear Chat** (per file)  
+- ❌ **Remove Files** (from memory + disk)  
+- 🤔 **Thinking Indicator** while the model processes your query  
+- 🖌 **Clean Chat UI** with styled bubbles  
+
+---
+
+## 📸 Demo Preview
+*(Add a screenshot or GIF of your app here — e.g. from your `/assets` folder)*
+
+---
+
+## 🛠️ Tech Stack
+
+- [Streamlit](https://streamlit.io/) – UI & app framework  
+- [Google Gemini API](https://ai.google.dev/) – LLM for Q&A  
+- [pdfplumber](https://pypi.org/project/pdfplumber/) – PDF text extraction  
+- [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) + [Pillow](https://pypi.org/project/Pillow/) – Image text extraction  
+- Python 3.9+  
+
+---
+
+## 🚀 Installation & Setup
+
+Clone the repo:
+```bash
+git clone https://github.com/your-username/ask-my-doc.git
+cd ask-my-doc
+
+Create a Virtual Environment
+
+python -m venv venv
+source venv/bin/activate   # Mac/Linux
+venv\Scripts\activate      # Windows
+
+Install The dependancies
+
+pip install -r requirements.txt
+
+export GEMINI_API_KEY="your_api_key"    # Mac/Linux
+setx GEMINI_API_KEY "your_api_key"      # Windows
+
+Run the app
+
+streamlit run main.py
+
+
+Project Structure
+ask-my-doc/
+│
+├── main.py                 # Streamlit UI
+├── qa_engine.py            # Gemini Q&A logic
+├── utils.py                # Text extraction helpers
+├── data/
+│   └── uploaded_docs/      # Uploaded files stored here
+├── requirements.txt        # Python dependencies
+└── README.md               # Project documentation
