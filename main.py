@@ -1,6 +1,73 @@
 import streamlit as st
 import os
+import time
 from utils import extract_text_from_pdf, extract_text_from_image
+
+st.markdown(
+    """
+    <style>
+    /* Overall app background */
+    .main {
+        background-color: #f9f9f9;
+    }
+
+    /* Chat container */
+    .chat-container {
+        padding: 10px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    /* User bubble */
+    .user-bubble {
+        background-color: #dcf8c6;
+        color: #000;
+        padding: 10px 15px;
+        border-radius: 18px;
+        margin: 8px 0;
+        max-width: 75%;
+        align-self: flex-end;
+        text-align: right;
+    }
+
+    /* Assistant bubble */
+    .ai-bubble {
+        background-color: #f1f0f0;
+        color: #000;
+        padding: 10px 15px;
+        border-radius: 18px;
+        margin: 8px 0;
+        max-width: 75%;
+        align-self: flex-start;
+        text-align: left;
+    }
+
+    /* Chat alignment */
+    .bubble-row {
+        display: flex;
+    }
+    .bubble-row.user {
+        justify-content: flex-end;
+    }
+    .bubble-row.ai {
+        justify-content: flex-start;
+    }
+
+    /* Thinking loader */
+    .thinking {
+        font-size: 14px;
+        color: #999;
+        font-style: italic;
+        margin-top: 5px;
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 UPLOAD_FOLDER = "data/uploaded_docs"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -47,7 +114,6 @@ for fname in st.session_state.files.keys():
     if st.sidebar.button(f"Open {fname}"):
         st.session_state.current_file = fname
 
-# Show active file
 # Show active file
 if st.session_state.current_file:
     current_file = st.session_state.current_file
@@ -110,13 +176,18 @@ if st.session_state.current_file:
     # Chat area
     chat_container = st.container()
     with chat_container:
+        st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+
         for role, msg in st.session_state.chat_history[current_file]:
             if role == "user":
-                with st.chat_message("user"):
-                    st.markdown(msg)
+                st.markdown(f'<div class="bubble-row user"><div class="user-bubble">{msg}</div></div>', unsafe_allow_html=True)
             else:
-                with st.chat_message("assistant"):
-                    st.markdown(msg)
+                st.markdown(f'<div class="bubble-row ai"><div class="ai-bubble">{msg}</div></div>', unsafe_allow_html=True)
+
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # Placeholder for "Thinking..." message
+    thinking_placeholder = st.empty()
 
     # Input box stays pinned at bottom
     user_question = st.chat_input("💬 Ask a question...")
@@ -128,10 +199,23 @@ if st.session_state.current_file:
             doc_text = st.session_state.files[current_file]
             st.session_state.chat_history[current_file].append(("user", user_question))
 
+            # Show a "Thinking..." placeholder
+            thinking_placeholder = st.empty()
+            thinking_placeholder.markdown(
+                "<div class='thinking'>🤔 Thinking...</div>", unsafe_allow_html=True
+            )
+
+            # Call Gemini / QA engine
             answer = chat_with_document(doc_text, user_question)
+
+            # Replace placeholder with nothing (clear it)
+            thinking_placeholder.empty()
+
+            # Save AI response
             st.session_state.chat_history[current_file].append(("assistant", answer))
 
             st.rerun()
         except Exception as e:
+            thinking_placeholder.empty()
             st.error(f"❌ Error: {e}")
 
