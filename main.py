@@ -235,6 +235,38 @@ if st.session_state.current_file:
                 st.markdown(f'<div class="bubble-row ai"><div class="ai-bubble">{safe_msg}</div></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
+    # Add File button (secondary uploader)
+    with st.expander("➕ Add Another File", expanded=False):
+        new_file = st.file_uploader(
+            "Upload another PDF or Image",
+            type=["pdf", "png", "jpg", "jpeg"],
+            key="new_file_uploader"
+        )
+
+        if new_file:
+            # Save file
+            new_path = os.path.join(UPLOAD_FOLDER, new_file.name)
+            with open(new_path, "wb") as f:
+                f.write(new_file.getbuffer())
+
+            st.success(f"✅ Added: {new_file.name}")
+
+            # Extract text
+            if new_file.name.lower().endswith(".pdf"):
+                new_text = extract_text_from_pdf(new_path)
+            else:
+                new_text = extract_text_from_image(new_path)
+
+            # Store in session_state
+            st.session_state.files[new_file.name] = new_text
+            st.session_state.current_file = new_file.name
+
+            if new_file.name not in st.session_state.chat_history:
+                st.session_state.chat_history[new_file.name] = []
+
+            st.rerun()
+
+
     # Thinking placeholder (will show animated dots via client-side CSS)
     thinking_placeholder = st.empty()
 
