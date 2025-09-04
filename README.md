@@ -22,8 +22,8 @@ Upload a **PDF or Image**, extract its text, and chat with your document in real
 
 ---
 
-## 📸 Demo Preview
-*(Add a screenshot or GIF of your app here — e.g. from your `/assets` folder)*
+## 📸Preview
+
 
 ---
 
@@ -72,3 +72,12 @@ ask-my-doc/
 │   └── uploaded_docs/      # Uploaded files stored here
 ├── requirements.txt        # Python dependencies
 └── README.md               # Project documentation
+```
+
+
+## 🧑‍💻 Future Improvements
+
+- 🔄 Streaming responses from Gemini 
+- ⏳ True animated "thinking..." loader
+- 🗃 Persistent storage of chat histories
+- 🌐 Deploy on Streamlit Cloud 
