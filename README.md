@@ -73,6 +73,25 @@ ask-my-doc/
 ├── requirements.txt        # Python dependencies
 └── README.md               # Project documentation
 ```
+## 🎯 Why I Built This Project
+
+I created **AskMyDoc** to deepen my understanding of how Large Language Models (LLMs) can be integrated with real-world applications. My goal was to go beyond simple AI demos and build a practical tool where users can interact with their own documents in a natural, conversational way.
+
+This project gave me hands-on experience with:
+- **Streamlit** for building intuitive, interactive UIs.
+- **Gemini AI** for real-time question answering.
+- **PDF & Image text extraction** using pdfplumber, Tesseract OCR, and Pillow.
+- Managing **multi-file state and sessions** in Streamlit.
+- Using **Git/GitHub** for version control and project publishing.
+
+Through this, I learned how to:
+- Design user-friendly features (chat bubbles, collapsible previews, file management).
+- Handle tricky session state issues in Streamlit.
+- Implement a "thinking..." animation for better UX.
+- Create a full-stack mini-project that combines AI, backend logic, and frontend presentation.
+
+Overall, this was a big step towards building production-ready AI-powered apps 🚀
+
 
 
 ## 🧑‍💻 Future Improvements
